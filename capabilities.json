@@ -52,60 +52,90 @@
       }
     }
   ],
+
   "objects": {
-    "enableAxis": {
+    "general": {
+        "displayName": "General",
+        "displayNameKey": "formattingGeneral",
         "properties": {
-            "show": {
+            "filter": {
                 "type": {
-                    "bool": true
-                }
-            },
-            "fill": {
-                "type": {
-                    "fill": {
-                        "solid": {
-                            "color": true
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "colorSelector": {
-        "properties": {
-            "fill": {
-                "type": {
-                    "fill": {
-                        "solid": {
-                            "color": true
-                        }
-                    }
+                    "filter": true
                 }
             }
         }
     },
 
-"settings": {
-  "displayName": "Visual Settings",
-  "description": "Visual Settings Tooltip",
- "properties": {
-     "lineColor": {
-      "displayName": "Line Color",
-      "type": { "fill": { "solid": { "color": true }}}
+    "group": {
+      "displayName": "Group",
+      "displayNameKey": "Visual_Group",
+      "properties": {
+        "showSelected": {
+          "displayName": "Show category label",
+          "displayNameKey": "Visual_ShowCategoryLabel",
+          "type": {
+            "bool": true
+          }
+        },
+        "showDataLabels": {
+          "displayName": "Show data labels",
+          "displayNameKey": "Visual_ShowDataLabels",
+          "type": {
+            "bool": true
+          }
+        },
+        "fontSize": {
+          "displayName": "Font size",
+          "displayNameKey": "Visual_FontSize",
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+        "fill": {
+          "displayName": "Top category color",
+          "displayNameKey": "Visual_TopCategoryColor",
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
       }
-   }
-}
-},
+    },
+    "tooltip": {
+      "displayName": "Tooltip",
+      "displayNameKey": "Visual_Tooltip",
+      "properties": {
+        "displayUnits": {
+          "displayName": "Display Units",
+          "displayNameKey": "Visual_DisplayUnits",
+          "type": {
+            "formatting": {
+              "labelDisplayUnits": true
+            }
+          }
+        },
+        "precision": {
+          "displayName": "Decimal Places",
+          "displayNameKey": "Visual_Precision",
+          "type": {
+            "numeric": true
+          }
+        }
+      }
+    }
+  },
 
-"supportsLandingPage": false,
-"drilldown": {
-    "roles": [
-        "category"
-    ]
-},
-
+   "supportsLandingPage": false,
   "privileges": [],
   "suppressDefaultTitle": false ,
-  "supportsMultiVisualSelection": true
+  "supportsMultiVisualSelection": true,
+  "supportsHighlight": true,
+  "supportsSynchronizingFilterState": true,
+  "sorting": { "default": {} }
 }
 

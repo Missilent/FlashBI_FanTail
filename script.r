@@ -1,7 +1,5 @@
 source('./r_files/flatten_HTML.r')
 
-#  Load R packages needed ####
-
 
 #  Load R packages needed ####
 library(ggplot2)
@@ -55,8 +53,6 @@ as.sunburstDF <- function(DF, valueCol = NULL){ require(data.table)
   return(hierarchyDT)
 }
 
-
-
  
 df <-  data.frame(cbind(Layers,  Values)) # Values
  
@@ -69,13 +65,11 @@ numlabs <- as.integer(NROW(unique(sunburstDFpos$labels) ))
 thelabs  <-  data.frame( thelabnames = unique(sunburstDFpos$labels))
 thelabs  <- tibble::rowid_to_column(thelabs, "ID")
 thelabsvals   <-   sunburstDFpos %>% select(labels,values)  %>%  group_by(labels) %>%
-  slice(which.max(1 ))  %>% select(labels,groupvalues =  values)  #prop = 1
+  slice(which.max(1 ))  %>% select(labels,groupvalues =  values)  
 thelabs$labcol <- NA
 
 ###  set the color pallet ####
-thelabs$labcol <- viridis(nrow(thelabs)) # colour_values(1:nrow(thelabs) ,  palette = "magma")
-    #thelabs$labcol <- palette = "viridis", mypalette[thelabs$ID] # colour_values(1:nrow(thelabs) ,  palette = "magma")
-    #, color = ~I(color)
+thelabs$labcol <- viridis(nrow(thelabs)) 
 thelabs<- thelabs %>% mutate (labcol =  ifelse(thelabnames == 'Total', "#FFFFFF",labcol ))    # #98fb98
 thelabs<- thelabs %>% mutate (labcol =  ifelse(thelabnames == 'Total', "#FFFFFF",labcol ))    # #98fb98
 
@@ -92,6 +86,8 @@ sunburstDFpos <- sunburstDFpos %>%
   group_by(parents) %>%
   mutate(parentval = sum(values , na.rm= T))
 sunburstDFpos <- sunburstDFpos %>%  mutate( percofparent= values / parentval )
+
+
 ##### plot the sunburst ####
  q <- plot_ly(data = sunburstDFpos, ids = ~ids, labels= ~labels, parents = ~parents,  text = ~valuestotzero,
              branchvalues = 'remainder',customdata = ~percofparent,
@@ -106,19 +102,7 @@ sunburstDFpos <- sunburstDFpos %>%  mutate( percofparent= values / parentval )
            yaxis = list( zeroline = FALSE,  showline = FALSE,
                          showticklabels = FALSE,  showgrid = FALSE),  margin(2, 2, 2, 2)  )
 
-###  save as html widget
-# q <-  plot_ly(sunburstDFpos,  x = df[,1], y = df[,2],  type = "bar" )
-#q <-  plot_ly(data = sunburstDFpos, ids = ~ids, labels= ~labels, parents = ~parents, values= ~values, type='sunburst', branchvalues = 'total')
-##https://laustep.github.io/stlahblog/posts/pbiviz.html#:~:text=In%20fact%2C%20pbiviz%20is%20not,restricted%20to%20render%20a%20htmlwidget.
-############# Create and save widget ###############
+
 p <- ggplotly(q)
-
-
 internalSaveWidget(p, 'out.html')
-####################################################
-
-
-################ Reduce paddings ###################
-#ReadFullFileReplaceString('out.html', 'out.html', ',"padding":[0-9]*,', ',"padding":0,')
-####################################################
 
