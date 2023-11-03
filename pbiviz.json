@@ -1,5 +1,5 @@
-{"visual":{"name":"FanTail","displayName":"Fan Tail by FlashBI","guid":"fanTail2A78A07F2F3E421E9BB61C0CD7D005C0",
-"visualClassName":"Visual","version":"1.0.0.1",
+{"visual":{"name":"FanTail","displayName":"Fan Tail by FlashBI","guid":"FanTail2A78A07F2F3E421E9BB61C0CD7D005C0",
+"visualClassName":"Visual","version":"1.0.0.2",
 "description":"FanTail","supportUrl":"https://flashbi.com.au/visuals/","gitHubUrl":"Missilent"},
 "apiVersion":"5.4.0","author":{"name":"Missilent","email":"fiona@flashbi.com.au"},
 "assets":{"icon":"assets/icon.png"},"externalJS":null,
