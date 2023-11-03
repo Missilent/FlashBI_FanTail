@@ -1,0 +1,111 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Layers",
+      "kind": "Grouping",
+      "name": "Layers"
+    },
+    {
+      "displayName": "% value",
+      "kind": "Measure",
+      "name": "Values"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        {
+          "Layers": {
+            "min": 1
+          },
+          "Values": {
+            "max": 1
+          }
+        }
+      ],
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+              "select": [
+                { "for": { "in": "Layers" } },
+                { "for": { "in": "Values" } }
+              ],
+              "dataReductionAlgorithm": {
+                "top": {}
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "html",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "enableAxis": {
+        "properties": {
+            "show": {
+                "type": {
+                    "bool": true
+                }
+            },
+            "fill": {
+                "type": {
+                    "fill": {
+                        "solid": {
+                            "color": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "colorSelector": {
+        "properties": {
+            "fill": {
+                "type": {
+                    "fill": {
+                        "solid": {
+                            "color": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+"settings": {
+  "displayName": "Visual Settings",
+  "description": "Visual Settings Tooltip",
+ "properties": {
+     "lineColor": {
+      "displayName": "Line Color",
+      "type": { "fill": { "solid": { "color": true }}}
+      }
+   }
+}
+},
+
+"supportsLandingPage": false,
+"drilldown": {
+    "roles": [
+        "category"
+    ]
+},
+
+  "privileges": [],
+  "suppressDefaultTitle": false ,
+  "supportsMultiVisualSelection": true
+}
+
