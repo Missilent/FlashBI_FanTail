@@ -2,9 +2,11 @@
   "name": "visual",
   "dependencies": {
     "@types/d3": "^7.4.2",
-    "@typescript-eslint/parser": "^6.8.0",
+    "@typescript-eslint/parser": "^6.9.1",
     "d3": "^7.8.5",
+    "npm": "^10.2.3",
     "powerbi-models": "^1.13.0",
+    "powerbi-visuals-tools": "^5.2.1",
     "powerbi-visuals-utils-chartutils": "^6.0.1",
     "powerbi-visuals-utils-colorutils": "^6.0.1",
     "powerbi-visuals-utils-dataviewutils": "^6.0.1",
@@ -15,8 +17,8 @@
     "powerbi-visuals-utils-tooltiputils": "^6.0.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.8.0",
-    "eslint": "^8.52.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "eslint": "^8.53.0",
     "eslint-plugin-powerbi-visuals": "^0.8.1",
     "powerbi-visuals-api": "5.4.0",
     "typescript": "4.9.3"
