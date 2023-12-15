@@ -1,4 +1,4 @@
-import { Visual } from "../../src/visual";
+import { FanTailVisual } from "../../src/fanTailVisual";
 import powerbiVisualsApi from "powerbi-visuals-api";
 import IVisualPlugin = powerbiVisualsApi.visuals.plugins.IVisualPlugin;
 import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualConstructorOptions;
@@ -8,11 +8,11 @@ var powerbi: any = window[powerbiKey];
 var fanTail2A78A07F2F3E421E9BB61C0CD7D005C0: IVisualPlugin = {
     name: 'fanTail2A78A07F2F3E421E9BB61C0CD7D005C0',
     displayName: 'Fan Tail by FlashBI',
-    class: 'Visual',
+    class: 'FanTailVisual',
     apiVersion: '5.4.0',
     create: (options?: VisualConstructorOptions) => {
-        if (Visual) {
-            return new Visual(options);
+        if (FanTailVisual) {
+            return new FanTailVisual(options);
         }
         throw 'Visual instance not found';
     },

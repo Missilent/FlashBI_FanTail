@@ -37,7 +37,13 @@ import IVisualHost = powerbi.extensibility.visual.IVisualHost;
 import ISelectionManager = powerbi.extensibility.ISelectionManager;
 import { VisualSettings } from "./settings";
 import { parseElement, resetInjector, runHTMLWidgetRenderer } from "./htmlInjectionUtility";
-import { BaseType, Selection, select as d3Select } from "d3-selection";
+import {
+    select as d3Select,
+    Selection as d3Selection,
+    BaseType
+} from "d3-selection";
+
+type Selection<T1, T2 = T1> = d3Selection<any, T1, any, T2>;
 
 enum VisualUpdateType {    Data = 2,    Resize = 4,    ViewMode = 8,
     Style = 16,    ResizeEnd = 32,    All = 62,}
@@ -48,26 +54,25 @@ const renderVisualUpdateType: number[] = [
     VisualUpdateType.Resize + VisualUpdateType.ResizeEnd];
 
 
-export class Visual implements IVisual {
-    allowInteractions: boolean;
-    private rootElement: HTMLElement;
+export class FanTailVisual implements IVisual {
+    private svg: Selection<any>;
+    private host: IVisualHost;
+    private element: HTMLElement;
+    private selectionManager: ISelectionManager;
     private headNodes: Node[];
     private bodyNodes: Node[];
     private settings: VisualSettings;
-    private host: IVisualHost;
-    private selectionManager: ISelectionManager;
-    private div: HTMLDivElement;
-    private svg: Selection<BaseType, string, BaseType, string>;
-
 
     public constructor(options: VisualConstructorOptions) {
         this.host = options.host;
-        this.selectionManager = this.host.createSelectionManager();
-        if (options && options.element) {
-            this.rootElement = options.element; }
+        this.element = options.element;
+        this.selectionManager = options.host.createSelectionManager();
+
+        this.svg = d3Select(options.element);
         this.headNodes = [];
         this.bodyNodes = [];
-         this.selectionManager = options.host.createSelectionManager(); }
+        this.handleContextMenu();
+    }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {        
         let dataCard: powerbi.visuals.FormattingCard = {
@@ -92,7 +97,7 @@ export class Visual implements IVisual {
         }
        // NO  this.renderContextMenu();
         const dataView: DataView = options.dataViews[0];
-        this.settings = Visual.parseSettings(dataView);
+        this.settings = FanTailVisual.parseSettings(dataView);
 
         let payloadBase64: string = null;
         if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
@@ -150,12 +155,12 @@ export class Visual implements IVisual {
         // update 'body' nodes, under the rootElement
         while (this.bodyNodes.length > 0) {
             let tempNode: Node = this.bodyNodes.pop();
-            this.rootElement.removeChild(tempNode);
+            this.element.removeChild(tempNode);
         }
         let bodyList: HTMLCollectionOf<HTMLBodyElement> = el.getElementsByTagName("body");
         if (bodyList && bodyList.length > 0) {
             let body: HTMLBodyElement = bodyList[0];
-            this.bodyNodes = parseElement(body, this.rootElement);
+            this.bodyNodes = parseElement(body, this.element);
         }
 
         runHTMLWidgetRenderer();
@@ -173,19 +178,18 @@ export class Visual implements IVisual {
     public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions):
         VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
         return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
-    } 
-
-
-    private renderContextMenu() {
-        this.svg.on('contextmenu', (event) => {
-            let dataPoint: any = d3Select(event.target).datum();
-           this.selectionManager.showContextMenu((dataPoint && dataPoint.data && dataPoint.data.identity) ? dataPoint.data.identity : {}, {
-                x: event.clientX,
-                y: event.clientY
-            });
-           event.preventDefault();
-      });
     }
-  
 
+    private handleContextMenu() {
+        this.svg.on('contextmenu', (event) => {
+            const mouseEvent: MouseEvent = event;
+            const eventTarget: EventTarget = mouseEvent.target;
+            const dataPoint: any = d3Select(<BaseType>eventTarget).datum();
+            this.selectionManager.showContextMenu(dataPoint ? dataPoint.selectionId : {}, {
+                x: mouseEvent.clientX,
+                y: mouseEvent.clientY
+            });
+            mouseEvent.preventDefault();
+        });
+    }
 }
