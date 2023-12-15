@@ -6,16 +6,14 @@ import EnumerateVisualObjectInstancesOptions = powerbi.EnumerateVisualObjectInst
 import VisualObjectInstance = powerbi.VisualObjectInstance;
 import IViewport = powerbi.IViewport;
 import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnumerationObject;
-export declare class Visual implements IVisual {
-    allowInteractions: boolean;
-    private rootElement;
+export declare class FanTailVisual implements IVisual {
+    private svg;
+    private host;
+    private element;
+    private selectionManager;
     private headNodes;
     private bodyNodes;
     private settings;
-    private host;
-    private selectionManager;
-    private div;
-    private svg;
     constructor(options: VisualConstructorOptions);
     getFormattingModel(): powerbi.visuals.FormattingModel;
     update(options: VisualUpdateOptions): void;
@@ -28,5 +26,5 @@ export declare class Visual implements IVisual {
      *
      */
     enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject;
-    private renderContextMenu;
+    private handleContextMenu;
 }
